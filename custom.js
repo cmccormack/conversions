@@ -2,6 +2,10 @@
 WORD = Math.pow(2,16);
 DWORD = Math.pow(2,32);
 
+funcs = {
+  
+}
+
 $("document").ready(function() {
 
   $("form").submit(function(e) {
