@@ -4,7 +4,7 @@ DWORD = Math.pow(2,32);
 
 $("document").ready(function() {
 
-  $("#formGroupNewFormat").submit(function(e) {
+  $("form").submit(function(e) {
     var $input = $(e.target).find(".user-input");
     console.log($input);
     console.log("Form Submitted");
