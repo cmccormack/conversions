@@ -6,6 +6,7 @@
 	<!-- Fonts -->
 
 	<!-- Javascript - jQuery must be loaded prior to Bootstrap -->
+  <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 	<script src="../resources/jquery-3.1.1/jquery-3.1.1.min.js"></script>
   <script src="../resources/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
 	<script src="custom.js"></script>
@@ -50,7 +51,7 @@
 
     <h3>Convert BGP Communities</h3>
     <div class="row">
-      <form class="form-group" id="formGroupNewFormat">
+      <form class="form-group" id="formGroupNewFormat" data-function="bgpNewFormatToDecimal" data-args=":">
         <div class="input-group" id="bgpNewFormat">
           <span class="input-group-btn" id="bgpNewFormatClear">
             <div class="btn btn-danger clear-btn" ><i class="fa fa-close"></i></div>

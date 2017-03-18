@@ -3,40 +3,48 @@ WORD = Math.pow(2,16);
 DWORD = Math.pow(2,32);
 
 funcs = {
-  
+  "bgpNewFormatToDecimal": convertToDecimal
 }
 
 $("document").ready(function() {
 
   $("form").submit(function(e) {
-    var $input = $(e.target).find(".user-input");
-    console.log($input);
-    console.log("Form Submitted");
     e.preventDefault();
-    convertToDecimal(":");
-    $input[0].selectionStart = 0;
+    var $form = $(e.target);
+        $input = $form.find(".user-input"),
+        func = $form.attr("data-function"),
+        args = $form.attr("data-args");
+
+    console.log("Form " + $form.attr("id") + " submitted with input: '" + $input.val() +"'", "e: " + $(e.target).attr("id"));
+    
+    // Calls function based on form data-function attribute
+    funcs[func](args);
+    highlightText( e );
   });
     
-  $("#bgpCVtoDecimal").click(function(){
-    convertToDecimal(":");
+  $("#bgpCVtoDecimal").click(function(e){
+    // console.log("Button Pressed: " + $(e.target).attr("id"));
+    // highlightText( e );
   });
 
   $("#bgpCVtoNewFormat").click(function(){
-    convertDecimalToFormat(".", false);
+    convertDecimalToFormat( ".", false );
   });
 
 
   $(".clear-btn").click(function(e){
     console.log("Clear button clicked");
-    $target = $(e.target);
+    $target = $( e.target );
     $target.closest(".input-group").find('input[type="text"]').val("");
     $target.closest(".input-group").find(".user-input").focus();
   });
 
 });
 
-
-
+// Selects all text in the user input 
+function highlightText(e){
+  $(e.target).closest("form").find(".user-input").select();
+}
 
 function convertToDecimal(sep){
   var text = $("#bgpNewFormatInput").val(),
