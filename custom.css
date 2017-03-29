@@ -39,12 +39,6 @@ input {
   width: 100%;
 }
 
-/*.input-group {
-  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
-  font-weight: 600;
-  margin-bottom: 15px;
-}*/
-
 .text-hint {
   width: 80px;
 }
@@ -55,8 +49,23 @@ input {
   text-align: center;
 }
 
-
 ::selection {
   background: #31b0d5;
   color: white;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  line-height: 30px;
+}
+.footer .navbar {
+  display: block;
+}
+
+.footer .navbar-brand {
+  margin-left: 1rem;
 }
