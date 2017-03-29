@@ -3,32 +3,33 @@ WORD = Math.pow(2,16);
 DWORD = Math.pow(2,32);
 
 funcs = {
-  "bgpNewFormatToDecimal": convertToDecimal
-}
+  "bgpNewFormatToDecimal": convertToDecimal,
+  "bgpDecimalToNewFormat": convertToFormat
+};
 
 $("document").ready(function() {
 
   $("form").submit(function(e) {
     e.preventDefault();
-    var $form = $(e.target);
+    var $form = $(this),
         $input = $form.find(".user-input"),
+        $output = $form.find(".output"),
         func = $form.attr("data-function"),
-        args = $form.attr("data-args");
+        args = [$input.val()].concat( $form.attr("data-args").split(",") );
 
-    console.log("Form " + $form.attr("id") + " submitted with input: '" + $input.val() +"'", "e: " + $(e.target).attr("id"));
+    console.log("output element: " + $output.attr("id"));
+    console.log("Form " + $form.attr("id") + " submitted - input: '" + $input.val() +"'", "func: " + func, "args: " + args);
     
-    // Calls function based on form data-function attribute
-    funcs[func](args);
-    highlightText( e );
+    // Calls function based on form data-function and data-args attributes
+    $output.val( funcs[func].apply(null, args) );
+
+
+    highlightText( $input );
   });
     
-  $("#bgpCVtoDecimal").click(function(e){
-    // console.log("Button Pressed: " + $(e.target).attr("id"));
-    // highlightText( e );
-  });
 
   $("#bgpCVtoNewFormat").click(function(){
-    convertDecimalToFormat( ".", false );
+    // convertDecimalToFormat( ".", false );
   });
 
 
@@ -42,12 +43,12 @@ $("document").ready(function() {
 });
 
 // Selects all text in the user input 
-function highlightText(e){
-  $(e.target).closest("form").find(".user-input").select();
+function highlightText(textfield){
+  textfield.select();
 }
 
-function convertToDecimal(sep){
-  var text = $("#bgpNewFormatInput").val(),
+function convertToDecimal(val, sep){
+  var text = val,
       left = 0, right = 0,
       output = "Invalid";
 
@@ -62,20 +63,20 @@ function convertToDecimal(sep){
     }
   } else { output += " Entry"; }
 
-  $("#bgpCVtoDecimalOutput").val(output);
+  return output;
 }
 
-function convertDecimalToFormat(sep, showLeft){
-  var text = $("#bgpDecimalInput").val(),
-      left = 0, right = 0,
-      output = "Invalid";
+function convertToFormat(val, sep, showLeft){
+  var text = val,
+    left = 0, right = 0,
+    output = "Invalid";
 
   if (text.match(/\d+/)){
     text = Number(text);
 
     if (text < 0 || text > DWORD - 1){
       if (text < 0) { output += ": Too Low"; }
-      if (text > DWORD - 1) { output += ": Too High"}
+      if (text > DWORD - 1) { output += ": Too High"; }
     } else {
       left = Math.floor(text/WORD);
       right = text % WORD;
