@@ -23,8 +23,8 @@ $("document").ready(function() {
     // Calls function based on form data-function and data-args attributes
     $output.val( funcs[func].apply(null, args) );
 
-
-    highlightText( $input );
+    // Selects all text in the user input for easy repeat
+    $input.select();
   });
     
 
@@ -42,10 +42,7 @@ $("document").ready(function() {
 
 });
 
-// Selects all text in the user input 
-function highlightText(textfield){
-  textfield.select();
-}
+
 
 function convertToDecimal(val, sep){
   var text = val,
@@ -66,27 +63,36 @@ function convertToDecimal(val, sep){
   return output;
 }
 
+
 function convertToFormat(val, sep, showLeft){
-  var text = val,
-    left = 0, right = 0,
-    output = "Invalid";
+  var left,
+      right,
+      output = "Invalid";
 
-  if (text.match(/\d+/)){
-    text = Number(text);
+  if (!val.match(/\d+/)){
+    return output + " Entry";
+  }
 
-    if (text < 0 || text > DWORD - 1){
-      if (text < 0) { output += ": Too Low"; }
-      if (text > DWORD - 1) { output += ": Too High"; }
-    } else {
-      left = Math.floor(text/WORD);
-      right = text % WORD;
+  val = Number(val);
+  showLeft = (showLeft == "true");
 
-      output = left + sep + right; 
-      if (!showLeft && text < WORD){ 
-        output = right;
-      } 
-    }
-  } else { output += " Entry"; }
+  if (val < 0 || val > DWORD - 1){
+    if (val < 0) { output += ": Too Low"; }
+    if (val > DWORD - 1) { output += ": Too High"; }
+    return output;
+  } 
 
-  $("#bgpCVtoNewFormatOutput").val(output);
+  left = Math.floor(val/WORD);
+  right = val % WORD;
+
+  console.log("showLeft: " + showLeft, "left: " + left, typeof left, "right: " + right, typeof right);
+
+  output = left + sep + right; 
+
+  if (showLeft === false && left === 0){ 
+    console.log("no left");
+    output = right;
+  } 
+  
+  return output;
 }
